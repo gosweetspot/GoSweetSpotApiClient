@@ -6,10 +6,10 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("GoSweetSpotApiClientLib")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("GoSweetSpot Freight Api Client")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("GoSweetSpotApiClientLib")]
+[assembly: AssemblyCompany("SweetSpot Group Limited")]
+[assembly: AssemblyProduct("GoSweetSpotApiClientLibrary")]
 [assembly: AssemblyCopyright("Copyright ©  2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

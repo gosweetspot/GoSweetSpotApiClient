@@ -161,13 +161,13 @@ namespace GoSweetSpotApiClientLib
             }
         }
 
-        public async Task<string> Printers_GetAsync()
+        public async Task<List< PrintAgentPrinter>> Printers_GetAsync()
         {
             HttpResponseMessage response = await Common.GetHttpClient(API_TOKEN).GetAsync("api/printers");
 
             if (response.IsSuccessStatusCode)
             {
-                var data = response.Content.ReadAsStringAsync();
+                var data = response.Content.ReadAsAsync<List< PrintAgentPrinter>>();
                 return data.Result;
             }
             else
@@ -198,8 +198,7 @@ namespace GoSweetSpotApiClientLib
 
         public async Task<CreateShipmentResponse> Shipment_CreateAsync(RatesQueryOrShipmentRequest request)
         {
-            request.QuoteId = Guid.Empty;
-            return await Shipment_CreateAsync(request);
+            return await Shipment_CreateAsync(request, Guid.Empty);
         }
         public async Task<CreateShipmentResponse> Shipment_CreateAsync(RatesQueryOrShipmentRequest request, Guid quoteId)
         {

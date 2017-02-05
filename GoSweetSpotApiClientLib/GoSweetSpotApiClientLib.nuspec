@@ -1,0 +1,18 @@
+﻿<?xml version="1.0"?>
+<package>
+  <metadata>
+    <id>GoSweetSpot.ApiClient</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>minalg</authors>
+    <owners>minalg</owners>
+    <licenseUrl>https://gosweetspot.com/apiuse</licenseUrl>
+    <projectUrl>http://gosweetspot.com</projectUrl>
+    <iconUrl>http://gosweetspot.com/favicon.ico</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Client library for interacting with the GoSweetSpot Freight system api.</description>
+    <releaseNotes>Intial Release</releaseNotes>
+    <copyright>GoSweetSpot 2017</copyright>
+    <tags>GoSweetSpot GSS</tags>
+  </metadata>
+</package>

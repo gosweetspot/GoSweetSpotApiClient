@@ -11,7 +11,7 @@ namespace GoSweetSpotApiClientLib.Models
     {
         [JsonProperty("packingslipno")]
         public string OrderNumber { get; set; }
-        public bool Success { get; set; }
+        public bool Result { get; set; }
         public string Msg { get; set; }
     }
 }

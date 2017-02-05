@@ -59,12 +59,14 @@
     <Compile Include="Models\CustomerOrdersSendResponse.cs" />
     <Compile Include="Models\Label.cs" />
     <Compile Include="Models\PagedResult.cs" />
+    <Compile Include="Models\Printer.cs" />
     <Compile Include="Models\RatesQueryOrShipmentRequest.cs" />
     <Compile Include="Models\ShipmentStatus.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="GoSweetSpotApiClientLib.nuspec" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
