@@ -257,5 +257,26 @@ namespace GoSweetSpotApiClientLib
             return ret;
         }
 
+        public async Task<DeleteShipmentResponse> Shipment_DeleteAsync(List<string> consignmentNumbers)
+        {
+            var retval = new DeleteShipmentResponse();
+            string querystring = "?id=" + String.Join(",", consignmentNumbers);
+            HttpResponseMessage response = await Common.GetHttpClient(API_TOKEN).DeleteAsync("api/shipments" + querystring);
+            if(response.IsSuccessStatusCode)
+            {
+                var res = response.Content.ReadAsAsync<Dictionary<string, string>>().Result;
+                foreach (var line in res)
+                {
+                    retval.Results.Add(new DeleteShipmentResponse.Result()
+                    {
+                        ConsignmentNumber = line.Key,
+                        Message = line.Value
+                    });
+                }
+            }
+
+            return retval;
+        }
+
     }
 }

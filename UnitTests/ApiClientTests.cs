@@ -402,6 +402,13 @@ namespace UnitTests
         [TestMethod]
         public void DeleteShipments()
         {
+            GoSweetSpotApiClient client = new GoSweetSpotApiClient(api_token);
+            var data = client.Shipment_DeleteAsync(new List<string>()
+            {
+                "SSPOT014115","SSPOT014114"
+            }).Result;
+
+
         }
         [TestMethod]
         public void CreateDomesticOutboundShipmentWithPreRating()
