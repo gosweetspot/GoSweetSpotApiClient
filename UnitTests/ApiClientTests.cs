@@ -3,6 +3,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using GoSweetSpotApiClientLib;
 using GoSweetSpotApiClientLib.Models;
 using System.Collections.Generic;
+using System.Linq;
+
 namespace UnitTests
 {
     [TestClass]
@@ -74,6 +76,17 @@ namespace UnitTests
             var orders = client.CustomerOrders_GetAsync("test1-" + DateTime.Now.ToString("yy-MM-dd")).Result;
 
             Assert.IsTrue(orders.Count > 0);
+        }
+
+        [TestMethod]
+        public void CustomerOrders_Get_With_Products()
+        {
+            GoSweetSpotApiClient client = new GoSweetSpotApiClient(api_token);
+            var orders = client.CustomerOrders_GetAsync("test1-" + DateTime.Now.ToString("yy-MM-dd"), true).Result;
+
+
+            Assert.IsTrue(orders.Count > 0);
+            Assert.IsTrue(orders.First().Products.Count > 0);
         }
         [TestMethod]
         public void Printers_GetActive()
@@ -448,6 +461,29 @@ namespace UnitTests
             }).Result;
 
             Assert.IsTrue(data.Consignments.Count > 0);
+        }
+
+        [TestMethod]
+        public void CreateDomesticOutboundShipmentWithPreRating()
+        {
+            GoSweetSpotApiClient client = new GoSweetSpotApiClient(api_token);
+
+            var req = new BookPickupRequest()
+            {
+                Carrier = "FedEx",
+                Parts = 0,
+                TotalKg = 0
+            };
+
+            req.Consignments = new List<string>();
+            req.Consignments.Add("ABC123");
+            req.Consignments.Add("ABC124");
+
+            /* Warning - This will book a real courier to come for collection for the job */
+            string result = "";
+           //result = client.PickupBooking_PostAsync(req).Result;
+
+            Assert.IsTrue(result.Contains("success"));
         }
 
     }

@@ -34,7 +34,6 @@ namespace GoSweetSpotApiClientLib.Models
         public class Product
         {
             [JsonProperty("productcode")]
-
             public string Code { get; set; }
             public string Description { get; set; }
             public decimal Units { get; set; }

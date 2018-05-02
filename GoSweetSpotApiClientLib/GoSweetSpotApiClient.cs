@@ -17,19 +17,19 @@ namespace GoSweetSpotApiClientLib
             API_TOKEN = apiToken;
         }
 
-        public async Task<List<CustomerOrder>> CustomerOrders_GetAsync(string ordernumber)
+        public async Task<List<CustomerOrder>> CustomerOrders_GetAsync(string ordernumber, bool includeProducts = false)
         {
-            return await CustomerOrders_GetFilteredAsync(new List<string>(new string[] { ordernumber }), null, null, false);
+            return await CustomerOrders_GetFilteredAsync(new List<string>(new string[] { ordernumber }), null, null, false, includeProducts);
         }
-        public async Task<List<CustomerOrder>> CustomerOrders_GetAsync(List<string> ordernumbers)
+        public async Task<List<CustomerOrder>> CustomerOrders_GetAsync(List<string> ordernumbers, bool includeProducts = false)
         {
-            return await CustomerOrders_GetFilteredAsync(ordernumbers, null, null, false);
+            return await CustomerOrders_GetFilteredAsync(ordernumbers, null, null, false, includeProducts);
         }
-        public async Task<List<CustomerOrder>> CustomerOrders_GetAsync(DateTime createdFrom, DateTime createdTo, bool excludecompleted)
+        public async Task<List<CustomerOrder>> CustomerOrders_GetAsync(DateTime createdFrom, DateTime createdTo, bool excludecompleted, bool includeProducts = false)
         {
-            return await CustomerOrders_GetFilteredAsync(null, createdFrom, createdTo, excludecompleted);
+            return await CustomerOrders_GetFilteredAsync(null, createdFrom, createdTo, excludecompleted, includeProducts);
         }
-        private async Task<List<CustomerOrder>> CustomerOrders_GetFilteredAsync(List<string> ordernumbers, DateTime? createdFrom, DateTime? createdTo, bool excludecompleted)
+        private async Task<List<CustomerOrder>> CustomerOrders_GetFilteredAsync(List<string> ordernumbers, DateTime? createdFrom, DateTime? createdTo, bool excludecompleted, bool includeProducts)
         {
             try
             {
@@ -39,11 +39,12 @@ namespace GoSweetSpotApiClientLib
 
             reloop:
 
-                var querystring = string.Format("packingslipno={0}&createdfrom={1}&createdto={2}&excludecompleted={3}&page={4}",
+                var querystring = string.Format("packingslipno={0}&createdfrom={1}&createdto={2}&excludecompleted={3}&includeProducts={4}&page={5}",
                     string.Join(",", ordernumbers.ToArray()),
                     (createdFrom ?? DateTime.UtcNow.AddYears(-1)).ToString("U"),
                     (createdTo ?? DateTime.UtcNow.AddDays(1)).ToString("U"),
                     excludecompleted,
+                    includeProducts,
                     page);
 
                 HttpResponseMessage response = await Common.GetHttpClient(API_TOKEN).GetAsync("api/customerorders?" + querystring);
@@ -276,6 +277,22 @@ namespace GoSweetSpotApiClientLib
             }
 
             return retval;
+        }
+
+        public async Task<string> PickupBooking_PostAsync(BookPickupRequest request)
+        {
+            HttpResponseMessage response = await Common.GetHttpClient(API_TOKEN).PostAsJsonAsync("api/bookpickup", request);
+
+            if (response.IsSuccessStatusCode)
+            {
+                return response.Content.ReadAsStringAsync().Result;
+            }
+            else
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.AppendFormat("{0} ({1}) - {2}", (int)response.StatusCode, response.ReasonPhrase, response.Content.ReadAsStringAsync().Result);
+                throw new HttpRequestException(sb.ToString());
+            }
         }
 
     }
