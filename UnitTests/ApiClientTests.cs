@@ -464,7 +464,7 @@ namespace UnitTests
         }
 
         [TestMethod]
-        public void CreateDomesticOutboundShipmentWithPreRating()
+        public void BookPickup()
         {
             GoSweetSpotApiClient client = new GoSweetSpotApiClient(api_token);
 
