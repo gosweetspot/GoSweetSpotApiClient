@@ -54,6 +54,7 @@
     <Compile Include="Common.cs" />
     <Compile Include="GoSweetSpotApiClient.cs" />
     <Compile Include="Models\AvailabeRatesResponse.cs" />
+    <Compile Include="Models\AvailableServicesResponse.cs" />
     <Compile Include="Models\BookPickupRequest.cs" />
     <Compile Include="Models\DeleteShipmentResponse.cs" />
     <Compile Include="Models\CreateShipmentResponse.cs" />

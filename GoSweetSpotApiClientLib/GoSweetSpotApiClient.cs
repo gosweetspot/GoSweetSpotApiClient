@@ -295,5 +295,21 @@ namespace GoSweetSpotApiClientLib
             }
         }
 
+        public async Task<AvailableServicesResponse> AvailableServices_GetAsync()
+        {
+            HttpResponseMessage response = await Common.GetHttpClient(API_TOKEN).GetAsync("api/availableServices");
+
+            if (response.IsSuccessStatusCode)
+            {
+                return response.Content.ReadAsAsync<AvailableServicesResponse>().Result;
+            }
+            else
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.AppendFormat("{0} ({1}) - {2}", (int)response.StatusCode, response.ReasonPhrase, response.Content.ReadAsStringAsync().Result);
+                throw new HttpRequestException(sb.ToString());
+            }
+        }
+
     }
 }
