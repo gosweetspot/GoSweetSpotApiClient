@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0"?>
 <package>
   <metadata>
-    <id>GoSweetSpot.ApiClient</id>
+    <id>GoSweetSpot.ApiClient.test</id>
     <version>$version$</version>
     <title>$title$</title>
     <authors>minalg</authors>
@@ -29,7 +29,7 @@
 
 
   <files>
-    <file src="bin\Release\GoSweetSpotApiClientLib.dll" target="lib" />
+    <file src="bin\Release\GoSweetSpotApiClientLib.dll" target="lib\net45" />
   </files>
   
 </package>
