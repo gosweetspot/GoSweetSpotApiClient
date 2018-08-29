@@ -10,7 +10,7 @@ namespace UnitTests
     [TestClass]
     public class ApiClientTests
     {
-        string api_token = "572014901603BD9CC53918988264B788D83CDA9BFA9E48F508";
+        string api_token = "XXXXXXXXXXXXXXXXXXXXXXXXX";
 
         [TestMethod]
         public void CustomerOrders_Get_ShouldReturnNothing()
@@ -427,7 +427,7 @@ namespace UnitTests
         public void CreateDomesticOutboundShipmentWithPreRating()
         {
             GoSweetSpotApiClient client = new GoSweetSpotApiClient(api_token);
-            var data = client.Shipment_CreateAsync(new RatesQueryOrShipmentRequest
+            var payload = new RatesQueryOrShipmentRequest
             {
                 DeliveryReference = "ORDER123",
                 Destination = new RatesQueryOrShipmentRequest.Contact
@@ -458,9 +458,12 @@ namespace UnitTests
                     Name = "GSS-DLE SATCHEL",
                 }
                 })
-            }).Result;
+            };
+            var rates = client.RatesQuery_GetAsync(payload).Result;
+            
+            var conn = client.Shipment_CreateAsync(payload, rates.Available.First().QuoteId).Result;
 
-            Assert.IsTrue(data.Consignments.Count > 0);
+            Assert.IsTrue(conn.Consignments.Count > 0);
         }
 
         [TestMethod]

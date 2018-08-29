@@ -21,7 +21,7 @@ namespace GoSweetSpotApiClientLib
             client.BaseAddress = new Uri("https://api.gosweetspot.com");
             client.DefaultRequestHeaders.Add("access_key", apiToken);
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            client.DefaultRequestHeaders.Add("User-Agent", "GoSweetSpotApiClient");
+            client.DefaultRequestHeaders.Add("User-Agent", "GoSweetSpotApiClient/" + LibraryVersion);
             
             return client;
         }
@@ -33,6 +33,13 @@ namespace GoSweetSpotApiClientLib
                 Directory.CreateDirectory(path);
 
             return path;
+        }
+        public static string LibraryVersion
+        {
+            get
+            {
+                return System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
+            }
         }
     }
 }
