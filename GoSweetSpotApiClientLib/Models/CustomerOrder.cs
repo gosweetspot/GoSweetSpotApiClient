@@ -42,6 +42,8 @@ namespace GoSweetSpotApiClientLib.Models
             public decimal UnitKg { get; set; }
             public string ImageUrl { get; set; }
             public string Currency { get; set; }
+            public decimal AlreadySent { get; set; }
+            public decimal? FulfilledQty { get; set; }
         }
     }
 }
