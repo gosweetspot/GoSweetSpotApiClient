@@ -27,7 +27,7 @@ namespace GoSweetSpotApiClientLib
         }
         public async Task<List<CustomerOrder>> CustomerOrders_GetAsync(DateTime createdFrom, DateTime createdTo, bool excludecompleted, bool includeProducts = false)
         {
-            return await CustomerOrders_GetFilteredAsync(null, createdFrom, createdTo, excludecompleted, includeProducts);
+            return await CustomerOrders_GetFilteredAsync(new List<string>(), createdFrom, createdTo, excludecompleted, includeProducts);
         }
         private async Task<List<CustomerOrder>> CustomerOrders_GetFilteredAsync(List<string> ordernumbers, DateTime? createdFrom, DateTime? createdTo, bool excludecompleted, bool includeProducts)
         {
