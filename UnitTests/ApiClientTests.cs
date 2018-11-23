@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using GoSweetSpotApiClientLib;
 using GoSweetSpotApiClientLib.Models;
@@ -464,6 +464,14 @@ namespace UnitTests
             var conn = client.Shipment_CreateAsync(payload, rates.Available.First().QuoteId).Result;
 
             Assert.IsTrue(conn.Consignments.Count > 0);
+        }
+
+        [TestMethod]
+        public void GetLabelopeLabel()
+        {
+            GoSweetSpotApiClient client = new GoSweetSpotApiClient(api_token);
+            var data = client.Labels_GetAsync("APD00020553", LabelFormat.LABEL_PDF_LABELOPE).Result;
+            File.WriteAllBytes(@"C:\Temp\TempFiles\ADP00020553.pdf", data.First());
         }
 
         [TestMethod]
