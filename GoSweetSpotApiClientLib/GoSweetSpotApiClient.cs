@@ -295,5 +295,23 @@ namespace GoSweetSpotApiClientLib
             }
         }
 
+        // Address Validation
+        public async Task<AddressValidationResponse> AddressValidation_PostAsync(AddressToValidate request)
+        {
+            HttpResponseMessage response = await Common.GetHttpClient(API_TOKEN).PostAsJsonAsync("v2/addressvalidation", request);
+
+            if (response.IsSuccessStatusCode)
+            {
+                return response.Content.ReadAsAsync<AddressValidationResponse>().Result;
+            }
+            else
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.AppendFormat("{0} ({1}) - {2}", (int)response.StatusCode, response.ReasonPhrase, response.Content.ReadAsStringAsync().Result);
+                throw new HttpRequestException(sb.ToString());
+            }
+        }
+
+
     }
 }
