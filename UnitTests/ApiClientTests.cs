@@ -44,7 +44,7 @@ namespace UnitTests
             GoSweetSpotApiClient client = new GoSweetSpotApiClient(api_token);
             var orders = client.CustomerOrders_Send(new GoSweetSpotApiClientLib.Models.CustomerOrder
             {
-                OrderNumber = "test1-" + DateTime.Now.ToString("yy-MM-dd"),
+                OrderNumber = "test2-" + DateTime.Now.ToString("yy-MM-dd") + "-products",
                 Address1 = "1 Queens Street",
                 Address2 = "",
                 Suburb = "Auckland Central",
@@ -60,7 +60,7 @@ namespace UnitTests
                              Description = "Wall Paint",
                              Currency = "NZD",
                              UnitKg= 1,
-                             Units = 1,
+                             Units = 10,
                              UnitValue = 10
                         }
                     })
@@ -82,7 +82,7 @@ namespace UnitTests
         public void CustomerOrders_Get_With_Products()
         {
             GoSweetSpotApiClient client = new GoSweetSpotApiClient(api_token);
-            var orders = client.CustomerOrders_GetAsync("test1-" + DateTime.Now.ToString("yy-MM-dd"), true).Result;
+            var orders = client.CustomerOrders_GetAsync("test1-" + DateTime.Now.ToString("yy-MM-dd") + "-products", true).Result;
 
 
             Assert.IsTrue(orders.Count > 0);
@@ -487,6 +487,92 @@ namespace UnitTests
            //result = client.PickupBooking_PostAsync(req).Result;
 
             Assert.IsTrue(result.Contains("success"));
+        }
+
+
+        [TestMethod]
+        public void AddressValidation_IncorrectSuburb()
+        {
+            GoSweetSpotApiClient client = new GoSweetSpotApiClient(api_token);
+
+            var data = new AddressToValidate
+            {
+                Consignee = "0123456789 0123456789 0123456789 0123456789",
+                Address = new AddressToValidate.AddressObject
+                {
+                    BuildingName = "",
+                    StreetAddress = "1 Some Street",
+                    Suburb = "MascotX",
+                    City = "NSW",
+                    PostCode = "2020",
+                    CountryCode = "AU",
+                    IsRural = false
+                },
+                Email = "",
+                ContactPerson = "",
+                PhoneNumber = "",
+                DeliveryInstructions = ""
+            };
+
+            var rsp = client.AddressValidation_PostAsync(data).Result;
+
+            Assert.IsTrue(rsp.Errors.Any());
+        }
+        [TestMethod]
+        public void AddressValidation_CorrectSuburb()
+        {
+            GoSweetSpotApiClient client = new GoSweetSpotApiClient(api_token);
+
+            var data = new AddressToValidate
+            {
+                Consignee = "0123456789 0123456789 0123456789 0123456789",
+                Address = new AddressToValidate.AddressObject
+                {
+                    BuildingName = "",
+                    StreetAddress = "1 Some Street",
+                    Suburb = "Mascot",
+                    City = "NSW",
+                    PostCode = "2020",
+                    CountryCode = "AU",
+                    IsRural = false
+                },
+                Email = "",
+                ContactPerson = "",
+                PhoneNumber = "",
+                DeliveryInstructions = ""
+            };
+
+            var rsp = client.AddressValidation_PostAsync(data).Result;
+
+            Assert.IsFalse(rsp.Errors.Any());
+        }
+        [TestMethod]
+        public void AddressValidation_IsRural()
+        {
+            GoSweetSpotApiClient client = new GoSweetSpotApiClient(api_token);
+
+            var data = new AddressToValidate
+            {
+                Consignee = "0123456789 0123456789 0123456789 0123456789",
+                Address = new AddressToValidate.AddressObject
+                {
+                    BuildingName = "",
+                    StreetAddress = "1 Chesham Lane",
+                    Suburb = "Clevedon",
+                    City = "Auckland",
+                    PostCode = "2248",
+                    CountryCode = "NZ",
+                    IsRural = false
+                },
+                Email = "",
+                ContactPerson = "",
+                PhoneNumber = "",
+                DeliveryInstructions = ""
+            };
+
+            var rsp = client.AddressValidation_PostAsync(data).Result;
+
+            Assert.IsTrue(rsp.Address.Address.IsRural);
         }
 
     }
