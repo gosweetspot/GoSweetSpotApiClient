@@ -110,10 +110,10 @@ namespace UnitTests
                     Address = new RatesQueryOrShipmentRequest.Contact.AddressModel
                     {
                         BuildingName = "",
-                        StreetAddress = "DestinationStreetAddress",
-                        Suburb = "Whangarei",
-                        City = "Northland",
-                        PostCode = "0142",
+                        StreetAddress = "2 City Rd",
+                        Suburb = "Grafton",
+                        City = "Auckland",
+                        PostCode = "1010",
                         CountryCode = "NZ",
                     },
                     ContactPerson = "DestinationContact",
@@ -581,7 +581,7 @@ namespace UnitTests
 
             var rsp = client.AddressValidation_PostAsync(data).Result;
 
-            Assert.IsTrue(rsp.Address.Address.IsRural);
+            Assert.IsTrue(rsp.Address.AvailableServices.Any(a => a.IsRural));
         }
 
     }

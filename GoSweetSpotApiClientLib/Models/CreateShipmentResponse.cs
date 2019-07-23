@@ -22,6 +22,7 @@ namespace GoSweetSpotApiClientLib.Models
         public bool IsFreightForward { get; set; }
         public bool IsOvernight { get; set; }
         public bool IsSaturdayDelivery { get; set; }
+        public bool IsResidential { get; set; }
         public bool IsRural { get; set; }
         public bool HasTrackPaks { get; set; }
         //public bool PrintLabels { get; set; }
@@ -45,6 +46,7 @@ namespace GoSweetSpotApiClientLib.Models
             public bool IsSaturdayDelivery { get; set; }
             public bool IsRural { get; set; }
             public bool IsOvernight { get; set; }
+            public bool IsResidential { get; set; }
             public bool HasTrackPaks { get; set; }
 
             public int ConsignmentId { get; set; }
