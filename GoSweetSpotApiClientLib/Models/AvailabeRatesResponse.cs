@@ -36,6 +36,7 @@ namespace GoSweetSpotApiClientLib.Models
             public bool IsRuralDelivery { get; set; }
             public bool IsSaturdayDelivery { get; set; }
             public bool IsFreightForward { get; set; }
+            public bool IsResidentialDelivery { get; set; }
 
             public string CarrierServiceType { get; set; }
         }
