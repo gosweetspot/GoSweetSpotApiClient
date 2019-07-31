@@ -21,12 +21,18 @@ namespace GoSweetSpotApiClientLib.Models
 
     public class AddressToValidate
     {
+        public AddressToValidate()
+        {
+            AvailableServices = new List<AvailableService>();
+        }
+
         public string Consignee { get; set; }
         public AddressObject Address { get; set; }
         public string Email { get; set; }
         public string ContactPerson { get; set; }
         public string PhoneNumber { get; set; }
         public string DeliveryInstructions { get; set; }
+        public List<AvailableService> AvailableServices { get; set; }
 
         public class AddressObject
         {
@@ -37,6 +43,16 @@ namespace GoSweetSpotApiClientLib.Models
             public string PostCode { get; set; }
             public string CountryCode { get; set; }
             public bool IsRural { get; set; }
+        }
+
+        public class AvailableService
+        {
+            public string Carrier { get; set; }
+            public bool IsResidential { get; set; }
+            public bool IsRural { get; set; }
+            public bool HasSaturdayService { get; set; }
+            public string BranchCode { get; set; }
+            public string RunNumber { get; set; }
         }
     }
 }
