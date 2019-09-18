@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GoSweetSpotApiClientLib.Models
 {
-    public class ShipmentStatus
+    public class ShipmentStatusFull
     {
         public ShipmentStatus()
         {
