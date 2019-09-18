@@ -8,7 +8,7 @@ namespace GoSweetSpotApiClientLib.Models
 {
     public class ShipmentStatusFull
     {
-        public ShipmentStatus()
+        public ShipmentStatusFull()
         {
             Events = new List<Event>();
         }
