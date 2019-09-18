@@ -1,4 +1,4 @@
-﻿using GoSweetSpotApiClientLib.Models;
+using GoSweetSpotApiClientLib.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,8 +41,8 @@ namespace GoSweetSpotApiClientLib
 
                 var querystring = string.Format("packingslipno={0}&createdfrom={1}&createdto={2}&excludecompleted={3}&includeProducts={4}&page={5}",
                     string.Join(",", ordernumbers.ToArray()),
-                    (createdFrom ?? DateTime.UtcNow.AddYears(-1)).ToString("U"),
-                    (createdTo ?? DateTime.UtcNow.AddDays(1)).ToString("U"),
+                    (createdFrom ?? DateTime.UtcNow.AddYears(-1)).ToString("u"),
+                    (createdTo ?? DateTime.UtcNow.AddDays(1)).ToString("u"),
                     excludecompleted,
                     includeProducts,
                     page);
@@ -228,7 +228,7 @@ namespace GoSweetSpotApiClientLib
             List<ShipmentStatus> ret = new List<ShipmentStatus>();
 
         reloop:
-            var querystring = string.Format("shipments={0}&ordernumbers={1}&lastupdateminutc={2}&lastupdatemaxutc={3}&page={4}",
+            var querystring = string.Format("?shipments={0}&ordernumbers={1}&lastupdateminutc={2}&lastupdatemaxutc={3}&page={4}",
                    string.Join(",", consignmentNumbers.ToArray()),
                    string.Join(",", ordernumbers.ToArray()),
                    (lastupdateminutc ?? DateTime.UtcNow.AddYears(-30)).ToString("U"),
