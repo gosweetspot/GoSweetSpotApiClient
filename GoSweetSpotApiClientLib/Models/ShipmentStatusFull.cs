@@ -89,7 +89,6 @@ namespace GoSweetSpotApiClientLib.Models
             public decimal HeightCm { get; set; }
             public decimal WeightKg { get; set; }
             public string PackageName { get; set; }
-            public string PackageStockCode { get; set; }
             public decimal Charge_LineTotal { get; set; }
             public DateTime? PickedAt { get; set; }
             public DateTime? DeliveredAt { get; set; }

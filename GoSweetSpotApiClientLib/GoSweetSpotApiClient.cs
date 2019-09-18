@@ -222,10 +222,10 @@ namespace GoSweetSpotApiClientLib
 
         }
 
-        public async Task<List<ShipmentStatus>> Shipment_GetAsync(List<string> consignmentNumbers, List<string> ordernumbers, DateTime? lastupdateminutc, DateTime? lastupdatemaxutc)
+        public async Task<List<ShipmentStatusFull>> Shipment_GetAsync(List<string> consignmentNumbers, List<string> ordernumbers, DateTime? lastupdateminutc, DateTime? lastupdatemaxutc)
         {
             int page = 1;
-            List<ShipmentStatus> ret = new List<ShipmentStatus>();
+            List<ShipmentStatusFull> ret = new List<ShipmentStatusFull>();
 
         reloop:
             var querystring = string.Format("?shipments={0}&ordernumbers={1}&lastupdateminutc={2}&lastupdatemaxutc={3}&page={4}",
@@ -239,7 +239,7 @@ namespace GoSweetSpotApiClientLib
 
             if (response.IsSuccessStatusCode)
             {
-                var data = response.Content.ReadAsAsync<PagedResult<ShipmentStatus>>();
+                var data = response.Content.ReadAsAsync<PagedResult<ShipmentStatusFull>>();
                 ret.AddRange(data.Result.Results);
 
                 if (data.Result.Pages > page)
