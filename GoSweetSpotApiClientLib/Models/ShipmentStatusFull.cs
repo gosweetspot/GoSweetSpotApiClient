@@ -92,6 +92,7 @@ namespace GoSweetSpotApiClientLib.Models
             public decimal Charge_LineTotal { get; set; }
             public DateTime? PickedAt { get; set; }
             public DateTime? DeliveredAt { get; set; }
+            public string RatingCode {get;set;}
         }
     }
 }
