@@ -5,6 +5,7 @@ using GoSweetSpotApiClientLib.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace UnitTests
 {
@@ -27,7 +28,7 @@ namespace UnitTests
             GoSweetSpotApiClient client = new GoSweetSpotApiClient(api_token);
             var orders = client.CustomerOrders_Send(new GoSweetSpotApiClientLib.Models.CustomerOrder
             {
-                OrderNumber = "test1-" + DateTime.Now.ToString("yy-MM-dd"),
+                OrderNumber = "test1-" + Guid.NewGuid().ToString(),
                 Address1 = "1 Queens Street",
                 Address2 = "",
                 Suburb = "Auckland Central",
@@ -75,7 +76,7 @@ namespace UnitTests
         public void CustomerOrders_Get_Recent_Created()
         {
             GoSweetSpotApiClient client = new GoSweetSpotApiClient(api_token);
-            var orders = client.CustomerOrders_GetAsync("test1-" + DateTime.Now.ToString("yy-MM-dd")).Result;
+            var orders = client.CustomerOrders_GetAsync(DateTime.Now.AddDays(-2), DateTime.Now, true, true).Result;
 
             Assert.IsTrue(orders.Count > 0);
         }
@@ -111,8 +112,8 @@ namespace UnitTests
                     Address = new RatesQueryOrShipmentRequest.Contact.AddressModel
                     {
                         BuildingName = "",
-                        StreetAddress = "2 City Rd",
-                        Suburb = "Grafton",
+                        StreetAddress = "17 Orion Place",
+                        Suburb = "Hillcrest",
                         City = "Auckland",
                         PostCode = "1010",
                         CountryCode = "NZ",
@@ -583,6 +584,15 @@ namespace UnitTests
             var rsp = client.AddressValidation_PostAsync(data).Result;
 
             Assert.IsTrue(rsp.Address.AvailableServices.Any(a => a.IsRural));
+        }
+
+        [TestMethod]
+        public async Task GetShipments_Recent()
+        {
+            GoSweetSpotApiClient client = new GoSweetSpotApiClient(api_token);
+
+            var results = await client.Shipment_GetAsync(new List<string>(), new List<string>(), DateTime.UtcNow.AddDays(-7), DateTime.UtcNow);
+            Assert.IsTrue(results.Count > 0);
         }
 
     }

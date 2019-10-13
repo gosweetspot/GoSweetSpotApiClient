@@ -64,7 +64,7 @@
     <Compile Include="Models\PagedResult.cs" />
     <Compile Include="Models\Printer.cs" />
     <Compile Include="Models\RatesQueryOrShipmentRequest.cs" />
-    <Compile Include="Models\ShipmentStatus.cs" />
+    <Compile Include="Models\ShipmentStatusFull.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
