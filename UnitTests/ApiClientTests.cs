@@ -35,7 +35,7 @@ namespace UnitTests
                 City = "Auckland",
                 PostCode = "",
                 Consignee = "Test 1",
-           
+                RawAddress = "1 Queens Street\nAuckland Central"
             }).Result;
 
             Assert.IsTrue(orders[0].Result);
