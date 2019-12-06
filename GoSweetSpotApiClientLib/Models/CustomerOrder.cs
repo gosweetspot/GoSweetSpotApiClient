@@ -28,6 +28,7 @@ namespace GoSweetSpotApiClientLib.Models
         public string ContactName { get; set; }
         public string ContactPhone { get; set; }
         public string Email { get; set; }
+        public string IconUrl { get; set; }
         public string CostCentre { get; set; }
         public string RawAddress { get; set; }
         //public RecordStatus status { get; set; }

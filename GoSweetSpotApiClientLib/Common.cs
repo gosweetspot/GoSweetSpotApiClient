@@ -18,11 +18,11 @@ namespace GoSweetSpotApiClientLib
             MediaTypeFormatter jsonFormatter = new JsonMediaTypeFormatter();
 
             client = new HttpClient();
-            client.BaseAddress = new Uri("https://api.gosweetspot.com");
+            client.BaseAddress = new Uri("https://dev-ship.gosweetspot.com");
             client.DefaultRequestHeaders.Add("access_key", apiToken);
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             client.DefaultRequestHeaders.Add("User-Agent", "GoSweetSpotApiClient/" + LibraryVersion);
-            
+
             return client;
         }
         public static string GetTempFolder()
