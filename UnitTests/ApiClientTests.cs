@@ -35,7 +35,8 @@ namespace UnitTests
                 City = "Auckland",
                 PostCode = "",
                 Consignee = "Test 1",
-                RawAddress = "1 Queens Street\nAuckland Central"
+                RawAddress = "1 Queens Street\nAuckland Central",
+                IconUrl = "https://dummyimage.com/600x400/000/fff"
             }).Result;
 
             Assert.IsTrue(orders[0].Result);
@@ -522,7 +523,7 @@ namespace UnitTests
                 })
             };
             var rates = client.RatesQuery_GetAsync(payload).Result;
-            
+
             var conn = client.Shipment_CreateAsync(payload, rates.Available.First().QuoteId).Result;
 
             Assert.IsTrue(conn.Consignments.Count > 0);
@@ -554,7 +555,7 @@ namespace UnitTests
 
             /* Warning - This will book a real courier to come for collection for the job */
             string result = "";
-           //result = client.PickupBooking_PostAsync(req).Result;
+            //result = client.PickupBooking_PostAsync(req).Result;
 
             Assert.IsTrue(result.Contains("success"));
         }

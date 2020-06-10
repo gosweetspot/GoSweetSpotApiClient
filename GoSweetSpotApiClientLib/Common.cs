@@ -22,7 +22,7 @@ namespace GoSweetSpotApiClientLib
             client.DefaultRequestHeaders.Add("access_key", apiToken);
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             client.DefaultRequestHeaders.Add("User-Agent", "GoSweetSpotApiClient/" + LibraryVersion);
-            
+
             return client;
         }
         public static string GetTempFolder()
