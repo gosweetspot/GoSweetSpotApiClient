@@ -11,7 +11,8 @@ namespace GoSweetSpotApiClientLib.Models
     {
         public CustomerOrder()
         {
-
+            Packages = new List<PackageSelection>();
+            Products = new List<Product>();
         }
         [JsonProperty("packingslipno")]
 
@@ -46,6 +47,16 @@ namespace GoSweetSpotApiClientLib.Models
             public string Currency { get; set; }
             public decimal AlreadySent { get; set; }
             public decimal? FulfilledQty { get; set; }
+        }
+        public List<PackageSelection> Packages { get; set; }
+        public class PackageSelection
+        {
+            public int Quantity { get; set; }
+            public string PackageStockName { get; set; }
+            public decimal? WeightKg { get; set; }
+            public decimal? LengthCm { get; set; }
+            public decimal? WidthCm { get; set; }
+            public decimal? HeightCm { get; set; }
         }
     }
 }

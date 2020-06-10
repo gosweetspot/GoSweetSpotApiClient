@@ -71,6 +71,65 @@ namespace UnitTests
 
             Assert.IsTrue(orders[0].Result);
         }
+        [TestMethod]
+        public void CustomerOrders_Send_Order_With_Packages()
+        {
+            GoSweetSpotApiClient client = new GoSweetSpotApiClient(api_token);
+            var orders = client.CustomerOrders_Send(new GoSweetSpotApiClientLib.Models.CustomerOrder
+            {
+                OrderNumber = "-" + Guid.NewGuid(),
+                Address1 = "1 Queens Street",
+                Address2 = "",
+                Suburb = "Surry Hills",
+                City = "Sydney",
+                PostCode = "",
+                Country = "AU",
+                Consignee = "Test 1",
+                Products = new System.Collections.Generic.List<GoSweetSpotApiClientLib.Models.CustomerOrder.Product>(
+                    new GoSweetSpotApiClientLib.Models.CustomerOrder.Product[]
+                    {
+                        new GoSweetSpotApiClientLib.Models.CustomerOrder.Product
+                        {
+                             Code = "ABC",
+                             Description = "Wall Paint",
+                             Currency = "NZD",
+                             UnitKg= 1,
+                             Units = 10,
+                             UnitValue = 10
+                        }
+                    }),
+                Packages = new List<CustomerOrder.PackageSelection>()
+                {
+                    new CustomerOrder.PackageSelection()
+                    {
+                        PackageStockName = "SMALL BOX",
+                        HeightCm = 10,
+                        LengthCm = 10,
+                        WidthCm = 10,
+                        WeightKg = 5,
+                        Quantity = 1
+                    },
+                    new CustomerOrder.PackageSelection()
+                    {
+                        PackageStockName = "Box 1",
+                        HeightCm = 1.1m,
+                        LengthCm = 1.1m,
+                        WidthCm = 1.1m,
+                        WeightKg = 1.1m,
+                        Quantity = 2
+                    },
+                    new CustomerOrder.PackageSelection()
+                    {
+                        PackageStockName = "GSS-A5 SATCHEL*",
+                        HeightCm = 5,
+                        WidthCm = 1,
+                        Quantity = 3
+                    } 
+                }
+            }).Result;
+
+            Assert.IsTrue(orders[0].Result);
+        }
 
         [TestMethod]
         public void CustomerOrders_Get_Recent_Created()
@@ -112,10 +171,10 @@ namespace UnitTests
                     Address = new RatesQueryOrShipmentRequest.Contact.AddressModel
                     {
                         BuildingName = "",
-                        StreetAddress = "17 Orion Place",
-                        Suburb = "Hillcrest",
-                        City = "Auckland",
-                        PostCode = "1010",
+                        StreetAddress = "152 Woodside Road",
+                        Suburb = "Oxford",
+                        City = "Oxford",
+                        PostCode = "7495",
                         CountryCode = "NZ",
                     },
                     ContactPerson = "DestinationContact",
@@ -128,12 +187,12 @@ namespace UnitTests
                 Packages = new System.Collections.Generic.List<RatesQueryOrShipmentRequest.RatesPackage>(
                     new RatesQueryOrShipmentRequest.RatesPackage[] {
                         new  RatesQueryOrShipmentRequest.RatesPackage{
-                            Height = 1,
-                            Length = 1,
+                            Height = 32,
+                            Length = 32,
                             Id = 0,
-                            Width = 10,
-                            Kg = 0.1M,
-                            Name = "GSS-DLE SATCHEL",
+                            Width = 38,
+                            Kg = 4.91M,
+                            Name = "CUSTOM",
                             //Type = "Box"
                         }
                     })
