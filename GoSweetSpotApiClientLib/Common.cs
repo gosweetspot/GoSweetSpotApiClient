@@ -12,7 +12,7 @@ namespace GoSweetSpotApiClientLib
 {
     class Common
     {
-        public static HttpClient GetHttpClient(string apiToken)
+        public static HttpClient GetHttpClient(string apiToken, int? siteId)
         {
             HttpClient client;
             MediaTypeFormatter jsonFormatter = new JsonMediaTypeFormatter();
@@ -20,6 +20,8 @@ namespace GoSweetSpotApiClientLib
             client = new HttpClient();
             client.BaseAddress = new Uri("https://api.gosweetspot.com");
             client.DefaultRequestHeaders.Add("access_key", apiToken);
+            if (siteId.HasValue)
+                client.DefaultRequestHeaders.Add("site_id", siteId.Value.ToString());
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             client.DefaultRequestHeaders.Add("User-Agent", "GoSweetSpotApiClient/" + LibraryVersion);
 

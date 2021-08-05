@@ -13,6 +13,7 @@ namespace UnitTests
     public class ApiClientTests
     {
         string api_token = "XXXXXXXXXXXXXXXXXXXXXXXXX";
+        int? siteId = null;
 
         [TestMethod]
         public void CustomerOrders_Get_ShouldReturnNothing()

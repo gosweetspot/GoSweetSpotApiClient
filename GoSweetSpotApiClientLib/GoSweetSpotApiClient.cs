@@ -11,10 +11,17 @@ namespace GoSweetSpotApiClientLib
     public class GoSweetSpotApiClient
     {
         string API_TOKEN = string.Empty;
+        private readonly int? siteId;
 
-        public GoSweetSpotApiClient(string apiToken)
+        /// <summary>
+        /// Instantiates a GoSweetSpot Api client
+        /// </summary>
+        /// <param name="apiToken">Access key obtained from Preferences & Settings screen</param>
+        /// <param name="siteId">If the user with the access key has access to multiple sites in the account, please supply the site id this API client should use.</param>
+        public GoSweetSpotApiClient(string apiToken, int? siteId = null)
         {
             API_TOKEN = apiToken;
+            this.siteId = siteId;
         }
 
         public async Task<List<CustomerOrder>> CustomerOrders_GetAsync(string ordernumber, bool includeProducts = false)
@@ -47,7 +54,7 @@ namespace GoSweetSpotApiClientLib
                     includeProducts,
                     page);
 
-                HttpResponseMessage response = await Common.GetHttpClient(API_TOKEN).GetAsync("api/customerorders?" + querystring);
+                HttpResponseMessage response = await Common.GetHttpClient(API_TOKEN, siteId).GetAsync("api/customerorders?" + querystring);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -82,7 +89,7 @@ namespace GoSweetSpotApiClientLib
         }
         public async Task<List<CustomerOrdersSendResponse>> CustomerOrders_Send(List<CustomerOrder> orders)
         {
-            HttpResponseMessage response = await Common.GetHttpClient(API_TOKEN).PutAsJsonAsync("api/customerorders", orders);
+            HttpResponseMessage response = await Common.GetHttpClient(API_TOKEN, siteId).PutAsJsonAsync("api/customerorders", orders);
 
             if (response.IsSuccessStatusCode)
             {
@@ -108,7 +115,7 @@ namespace GoSweetSpotApiClientLib
                 format,
                 rotate);
 
-            HttpResponseMessage response = await Common.GetHttpClient(API_TOKEN).GetAsync("api/labels?" + querystring);
+            HttpResponseMessage response = await Common.GetHttpClient(API_TOKEN, siteId).GetAsync("api/labels?" + querystring);
 
             if (response.IsSuccessStatusCode)
             {
@@ -124,7 +131,7 @@ namespace GoSweetSpotApiClientLib
 
         public async Task<string> Labels_PrintAsync(string consignmentNumber)
         {
-            HttpResponseMessage response = await Common.GetHttpClient(API_TOKEN).PostAsync("api/labels?connote=" + consignmentNumber, null);
+            HttpResponseMessage response = await Common.GetHttpClient(API_TOKEN, siteId).PostAsync("api/labels?connote=" + consignmentNumber, null);
 
             if (response.IsSuccessStatusCode)
             {
@@ -147,7 +154,7 @@ namespace GoSweetSpotApiClientLib
                 PrintToPrinter = printername
             };
 
-            HttpResponseMessage response = await Common.GetHttpClient(API_TOKEN).PostAsJsonAsync("api/labels/enqueue", post);
+            HttpResponseMessage response = await Common.GetHttpClient(API_TOKEN, siteId).PostAsJsonAsync("api/labels/enqueue", post);
 
             if (response.IsSuccessStatusCode)
             {
@@ -164,7 +171,7 @@ namespace GoSweetSpotApiClientLib
 
         public async Task<List< PrintAgentPrinter>> Printers_GetAsync()
         {
-            HttpResponseMessage response = await Common.GetHttpClient(API_TOKEN).GetAsync("api/printers");
+            HttpResponseMessage response = await Common.GetHttpClient(API_TOKEN, siteId).GetAsync("api/printers");
 
             if (response.IsSuccessStatusCode)
             {
@@ -181,7 +188,7 @@ namespace GoSweetSpotApiClientLib
 
         public async Task<AvailabeRatesResponse> RatesQuery_GetAsync(RatesQueryOrShipmentRequest request)
         {
-            HttpResponseMessage response = await Common.GetHttpClient(API_TOKEN).PostAsJsonAsync("api/rates", request);
+            HttpResponseMessage response = await Common.GetHttpClient(API_TOKEN, siteId).PostAsJsonAsync("api/rates", request);
 
             if (response.IsSuccessStatusCode)
             {
@@ -205,7 +212,7 @@ namespace GoSweetSpotApiClientLib
         {
             request.QuoteId = quoteId;
 
-            HttpResponseMessage response = await Common.GetHttpClient(API_TOKEN).PostAsJsonAsync("api/shipments", request);
+            HttpResponseMessage response = await Common.GetHttpClient(API_TOKEN, siteId).PostAsJsonAsync("api/shipments", request);
 
             if (response.IsSuccessStatusCode)
             {
@@ -235,7 +242,7 @@ namespace GoSweetSpotApiClientLib
                    (lastupdatemaxutc ?? DateTime.UtcNow.AddDays(1)).ToString("U"),
                    page);
 
-            HttpResponseMessage response = await Common.GetHttpClient(API_TOKEN).GetAsync("api/shipments" + querystring);
+            HttpResponseMessage response = await Common.GetHttpClient(API_TOKEN, siteId).GetAsync("api/shipments" + querystring);
 
             if (response.IsSuccessStatusCode)
             {
@@ -262,7 +269,7 @@ namespace GoSweetSpotApiClientLib
         {
             var retval = new DeleteShipmentResponse();
             string querystring = "?id=" + String.Join(",", consignmentNumbers);
-            HttpResponseMessage response = await Common.GetHttpClient(API_TOKEN).DeleteAsync("api/shipments" + querystring);
+            HttpResponseMessage response = await Common.GetHttpClient(API_TOKEN, siteId).DeleteAsync("api/shipments" + querystring);
             if(response.IsSuccessStatusCode)
             {
                 var res = response.Content.ReadAsAsync<Dictionary<string, string>>().Result;
@@ -281,7 +288,7 @@ namespace GoSweetSpotApiClientLib
 
         public async Task<string> PickupBooking_PostAsync(BookPickupRequest request)
         {
-            HttpResponseMessage response = await Common.GetHttpClient(API_TOKEN).PostAsJsonAsync("api/bookpickup", request);
+            HttpResponseMessage response = await Common.GetHttpClient(API_TOKEN, siteId).PostAsJsonAsync("api/bookpickup", request);
 
             if (response.IsSuccessStatusCode)
             {
@@ -298,7 +305,7 @@ namespace GoSweetSpotApiClientLib
         // Address Validation
         public async Task<AddressValidationResponse> AddressValidation_PostAsync(AddressToValidate request)
         {
-            HttpResponseMessage response = await Common.GetHttpClient(API_TOKEN).PostAsJsonAsync("v2/addressvalidation", request);
+            HttpResponseMessage response = await Common.GetHttpClient(API_TOKEN, siteId).PostAsJsonAsync("v2/addressvalidation", request);
 
             if (response.IsSuccessStatusCode)
             {
