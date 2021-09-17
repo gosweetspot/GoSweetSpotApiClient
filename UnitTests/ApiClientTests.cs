@@ -300,6 +300,92 @@ namespace UnitTests
             Assert.IsTrue(data.Consignments.Count > 0);
         }
         [TestMethod]
+        public void CreateDomesticOutboundShipment_WithPRN()
+        {
+            GoSweetSpotApiClient client = new GoSweetSpotApiClient(api_token);
+            var data = client.Shipment_CreateAsync(new RatesQueryOrShipmentRequest
+            {
+                Carrier = "Post Haste",
+                //Service = "Overnight",
+                //QuoteId = "3132131",
+                DeliveryReference = "ORDER123",
+                Destination = new RatesQueryOrShipmentRequest.Contact
+                {
+                    Name = "DestinationName",
+                    Address = new RatesQueryOrShipmentRequest.Contact.AddressModel
+                    {
+                        BuildingName = "",
+                        StreetAddress = "DestinationStreetAddress",
+                        Suburb = "Avonside",
+                        City = "Christchurch",
+                        PostCode = "8061",
+                        CountryCode = "NZ",
+                    },
+                    ContactPerson = "DestinationContact",
+                    PhoneNumber = "123456789",
+                    Email = "destinationemail@email.com",
+                    DeliveryInstructions = "Desinationdeliveryinstructions"
+                },
+                IsSaturdayDelivery = false,
+                IsSignatureRequired = true,
+                Packages = new List<RatesQueryOrShipmentRequest.RatesPackage>(new RatesQueryOrShipmentRequest.RatesPackage[] { new RatesQueryOrShipmentRequest.RatesPackage{
+                    Height = 1,
+                    Length = 1,
+                    Id = 0,
+                    Width = 10,
+                    Kg = 0.1M,
+                    Name = "GSS-DLE SATCHEL",
+                }
+                }),
+                PrintToPrinter = "false",
+                Outputs = new List<RatesQueryOrShipmentRequest.OutputEnum>() { RatesQueryOrShipmentRequest.OutputEnum.GOPRINT_PRN }
+            }).Result;
+            File.WriteAllBytes(@"C:\Temp\TempFiles\Test.prn", data.Consignments[0].OutputFiles["GOPRINT_PRN"][0]);
+        }        
+        [TestMethod]
+        public void CreateDomesticOutboundShipment_User_Configured_Label()
+        {
+            GoSweetSpotApiClient client = new GoSweetSpotApiClient(api_token);
+            var data = client.Shipment_CreateAsync(new RatesQueryOrShipmentRequest
+            {
+                Carrier = "Post Haste",
+                //Service = "Overnight",
+                //QuoteId = "3132131",
+                DeliveryReference = "ORDER123",
+                Destination = new RatesQueryOrShipmentRequest.Contact
+                {
+                    Name = "DestinationName",
+                    Address = new RatesQueryOrShipmentRequest.Contact.AddressModel
+                    {
+                        BuildingName = "",
+                        StreetAddress = "DestinationStreetAddress",
+                        Suburb = "Avonside",
+                        City = "Christchurch",
+                        PostCode = "8061",
+                        CountryCode = "NZ",
+                    },
+                    ContactPerson = "DestinationContact",
+                    PhoneNumber = "123456789",
+                    Email = "destinationemail@email.com",
+                    DeliveryInstructions = "Desinationdeliveryinstructions"
+                },
+                IsSaturdayDelivery = false,
+                IsSignatureRequired = true,
+                Packages = new List<RatesQueryOrShipmentRequest.RatesPackage>(new RatesQueryOrShipmentRequest.RatesPackage[] { new RatesQueryOrShipmentRequest.RatesPackage{
+                    Height = 1,
+                    Length = 1,
+                    Id = 0,
+                    Width = 10,
+                    Kg = 0.1M,
+                    Name = "GSS-DLE SATCHEL",
+                }
+                }),
+                PrintToPrinter = "false",
+                Outputs = new List<RatesQueryOrShipmentRequest.OutputEnum>() { RatesQueryOrShipmentRequest.OutputEnum.USER_CONFIGURED }
+            }).Result;
+            File.WriteAllBytes($"C:\\Temp\\TempFiles\\{data.Consignments[0].Connote}.pdf", data.Consignments[0].OutputFiles["USER_CONFIGURED"][0]);
+        }
+        [TestMethod]
         public void CreateDomesticOutboundShipmentWithDangerousGoods()
         {
             GoSweetSpotApiClient client = new GoSweetSpotApiClient(api_token);
@@ -536,6 +622,20 @@ namespace UnitTests
             GoSweetSpotApiClient client = new GoSweetSpotApiClient(api_token);
             var data = client.Labels_GetAsync("APD00020553", LabelFormat.LABEL_PDF_LABELOPE).Result;
             File.WriteAllBytes(@"C:\Temp\TempFiles\ADP00020553.pdf", data.First());
+        }
+        [TestMethod]
+        public void GetLabelPrnFile()
+        {
+            GoSweetSpotApiClient client = new GoSweetSpotApiClient(api_token);
+            var data = client.Labels_GetAsync("283341195920", LabelFormat.GOPRINT_PRN).Result;
+            File.WriteAllBytes(@"C:\Temp\TempFiles\Test.prn", data.First());
+        }
+        [TestMethod]
+        public void GetLabelFile_User_Configured()
+        {
+            GoSweetSpotApiClient client = new GoSweetSpotApiClient(api_token);
+            var data = client.Labels_GetAsync("283341195920", LabelFormat.USER_CONFIGURED).Result;
+            File.WriteAllBytes(@"C:\Temp\TempFiles\283341195920.pdf", data.First());
         }
 
         [TestMethod]
