@@ -319,6 +319,54 @@ namespace GoSweetSpotApiClientLib
             }
         }
 
+        // Stock Size
+        public async Task<List<StockSizesResponse>> StockSizes_GetAsync()
+        {
+            HttpResponseMessage response = await Common.GetHttpClient(API_TOKEN, siteId).GetAsync("api/stocksizes");
+
+            if (response.IsSuccessStatusCode)
+            {
+                return response.Content.ReadAsAsync<List<StockSizesResponse>>().Result;
+            }
+            else
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.AppendFormat("{0} ({1}) - {2}", (int)response.StatusCode, response.ReasonPhrase, response.Content.ReadAsStringAsync().Result);
+                throw new HttpRequestException(sb.ToString());
+            }
+        }
+        public async Task<StockSizesResponse> StockSizes_PostAsync(StockSizesRequest request)
+        {
+            HttpResponseMessage response = await Common.GetHttpClient(API_TOKEN, siteId).PostAsJsonAsync("api/stocksizes", request);
+
+            if (response.IsSuccessStatusCode)
+            {
+                return response.Content.ReadAsAsync<StockSizesResponse>().Result;
+            }
+            else
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.AppendFormat("{0} ({1}) - {2}", (int)response.StatusCode, response.ReasonPhrase, response.Content.ReadAsStringAsync().Result);
+                throw new HttpRequestException(sb.ToString());
+            }
+        }
+        public async Task<Dictionary<string,string>> StockSizes_DeleteAsync(string ids)
+        {
+            HttpResponseMessage response = await Common.GetHttpClient(API_TOKEN, siteId).DeleteAsync($"api/stocksizes?id={ids}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                return response.Content.ReadAsAsync<Dictionary<string,string>>().Result;
+            }
+            else
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.AppendFormat("{0} ({1}) - {2}", (int)response.StatusCode, response.ReasonPhrase, response.Content.ReadAsStringAsync().Result);
+                throw new HttpRequestException(sb.ToString());
+            }
+        }
+
+
 
     }
 }
