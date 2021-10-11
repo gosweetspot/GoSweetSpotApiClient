@@ -65,6 +65,7 @@
     <Compile Include="Models\Printer.cs" />
     <Compile Include="Models\RatesQueryOrShipmentRequest.cs" />
     <Compile Include="Models\ShipmentStatusFull.cs" />
+    <Compile Include="Models\StockSizes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

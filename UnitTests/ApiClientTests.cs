@@ -656,5 +656,47 @@ namespace UnitTests
             Assert.IsTrue(results.Count > 0);
         }
 
+
+        [TestMethod]
+        public async Task GetStockSizes()
+        {
+            GoSweetSpotApiClient client = new GoSweetSpotApiClient(api_token);
+
+            var results = await client.StockSizes_GetAsync();
+            Assert.IsTrue(results.Count > 0);
+        }
+
+        [TestMethod]
+        public async Task CreateStockSizes()
+        {
+            GoSweetSpotApiClient client = new GoSweetSpotApiClient(api_token);
+            var packageName = $"Test{DateTime.Now.Ticks}";
+            var result = await client.StockSizes_PostAsync(new StockSizesRequest()
+            {
+                Name = packageName,
+                Height = 10,
+                Length = 10,
+                Width = 10,
+                Type = "BOX",
+                Weight = 5,
+                Sort = 1,
+                Availability = StockSizesRequest.AvailabilityEnum.Me_Only
+            });
+            Assert.IsTrue(result.Name == packageName);
+        }
+
+        [TestMethod]
+        public async Task DeleteStockSizes()
+        {
+            var id = 159883;
+            GoSweetSpotApiClient client = new GoSweetSpotApiClient(api_token);
+
+            var results = await client.StockSizes_DeleteAsync(id.ToString());
+            Assert.IsTrue(results[id.ToString()] == "Deleted");
+
+            var stocksizes = await client.StockSizes_GetAsync();
+            Assert.IsFalse(stocksizes.Any(a=>a.PackageStockId == id));
+        }
+
     }
 }
